@@ -27,6 +27,7 @@ class Player
         
         if code_guess == board.code
             puts "You won!"
+            4.times {board.guesses[guess_counter] << "■"}
             return true
         else
             code_guess.each_with_index do |guess, i|
@@ -63,6 +64,8 @@ class Board
         else
             p Array.new(4) {"Ø"}
         end
+
+        puts ""
         
         board.each_with_index do |row, i|
             print row
