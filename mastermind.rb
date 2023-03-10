@@ -1,7 +1,16 @@
 class Player
+    attr_reader :code_breaker, :board
     def initialize(board, code_breaker)
         @board = board
         @code_breaker = code_breaker
+    end
+
+    def make_code(code)
+        if code_breaker
+            return
+        end
+
+        board.code = code
     end
 end
 
@@ -30,4 +39,7 @@ class Board
 end
 
 board = Board.new
+player = Player.new(board, false)
+
+player.make_code([1,2,3,4])
 board.display_board(true)
