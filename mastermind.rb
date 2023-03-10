@@ -1,3 +1,10 @@
+class Player
+    def initialize(board, code_breaker)
+        @board = board
+        @code_breaker = code_breaker
+    end
+end
+
 class Board
     attr_accessor :code, :board, :guesses
 
