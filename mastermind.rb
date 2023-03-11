@@ -5,12 +5,14 @@ PROMPT_GAME_EXPLANATION = "This is a game of Mastermind!
 You are going to choose between being the code BREAKER or the code MAKER.
 The code MAKER be prompted to make the code, and the code BREAKER will be 
 prompted to make a guess. You can choose to local play multiplayer, with 
-a friend, or if you are the BREAKER, against hte computer.
+a friend, or if you are the BREAKER, against the computer.
+
+The code consists of 4 numbers, and the numbers have to be between 1 and 6.
 
 If a guess contains a correct number at the correct location, you will be
 shown a ' ■ ', without telling you WHICH number. If a guess contains the 
 correct number, but at the wrong location, you will be shown a ' o ', wit-
--hout telling you WHICH number"
+-hout telling you WHICH number\n\n\n"
 
 class Game
     def initialize
