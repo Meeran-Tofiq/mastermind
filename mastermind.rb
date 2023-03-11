@@ -21,32 +21,42 @@ class Game
     end
 
     def play
-        win = false
+        replay = true
 
-        local_multiplayer = prompt_local_multiplayer?
-        first_player_breaker = prompt_first_player_breaker?
+        while replay
+            replay = false
+            win = false
 
-        breaker = Player.new(@board, true)
-        master = Player.new(@board, false)
+            local_multiplayer = prompt_local_multiplayer?
+            first_player_breaker = prompt_first_player_breaker?
 
-        if local_multiplayer
-            master.make_code(prompt_code)
-        else
-            master.make_random_code()
-        end
+            breaker = Player.new(@board, true)
+            master = Player.new(@board, false)
 
-        @board.display_board(false)
-
-        while !win
-            if first_player_breaker
-                guess = prompt_breaker_guess
-                win = breaker.make_guess(guess)
-                if win == nil
-                    break
-                end
+            if local_multiplayer
+                master.make_code(prompt_code)
+            else
+                master.make_random_code()
             end
 
-            @board.display_board(win)
+            @board.display_board(false)
+
+            while !win
+                if first_player_breaker
+                    guess = prompt_breaker_guess
+                    win = breaker.make_guess(guess)
+                    @board.display_board(win)
+                    
+                    if win == nil || win
+                        if prompt_replay
+                            replay = true
+                            @board = Board.new
+                            break
+                        end
+                    end
+                end
+
+            end
         end
     end
 
@@ -106,6 +116,13 @@ class Game
         end
 
         code.map(&:to_i)
+    end
+
+    def prompt_replay
+        puts "Do you want to play again? (y/...)"
+        answer = gets.chomp.downcase
+
+        return (answer == 'y' ? true : false)
     end
 end
 
