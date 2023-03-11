@@ -17,6 +17,7 @@ correct number, but at the wrong location, you will be shown a ' o ', wit-
 class Game
     def initialize
         puts PROMPT_GAME_EXPLANATION
+        @board = Board.new
     end
 
     def play
@@ -25,8 +26,22 @@ class Game
         local_multiplayer = prompt_local_multiplayer?
         first_player_breaker = prompt_first_player_breaker?
 
+        breaker = Player.new(@board, true)
+        master = Player.new(@board, false)
+
+        if local_multiplayer
+            master.make_code(prompt_code)
+        else
+            master.make_random_code()
+        end
+
         while !win
-            break 
+            if first_player_breaker
+                guess = prompt_breaker_guess
+                win = breaker.make_guess(guess)
+            end
+
+            @board.display_board(win)
         end
     end
 
@@ -42,6 +57,37 @@ class Game
         answer = gets.chomp.downcase
 
         return (answer == "y" ? true : false)
+    end
+
+    def prompt_breaker_guess
+        puts "Write your guess with 4 numbers, each between 1 and 6"
+        guess = gets.chomp.split('')
+        guess_within_rules = false
+        
+        while !guess_within_rules
+            if guess.length != 4
+                puts "You must guess with a 4-number code"
+                guess = gets.chomp.split('')
+                next
+            end
+
+            guess.each do |num|
+                num = num.to_i
+                if num > 6 || num < 1
+                    puts "Your number must be between 1 and 6"
+                    guess_within_rules = false
+                    break 
+                else
+                    guess_within_rules = true
+                end
+            end
+            
+            unless guess_within_rules
+                guess = gets.chomp.split('')
+            end
+        end
+        
+        guess.map(&:to_i)
     end
 end
 
@@ -61,6 +107,15 @@ class Player
         end
         
         board.code = code
+    end
+
+    def make_random_code
+        if code_breaker
+            return
+        end
+        
+       code = Array.new(4) {rand(1..6)}
+       make_code(code) 
     end
     
     def make_guess(code_guess)
@@ -120,14 +175,5 @@ class Board
     end
 end
 
-board = Board.new
-code_master = Player.new(board, false)
-code_breaker = Player.new(board, true)
 game = Game.new
 game.play
-
-code_master.make_code([1,2,3,4])
-
-win = code_breaker.make_guess([2, 2, 4, 4])
-
-board.display_board(win)
