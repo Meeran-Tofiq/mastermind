@@ -18,6 +18,31 @@ class Game
     def initialize
         puts PROMPT_GAME_EXPLANATION
     end
+
+    def play
+        win = false
+
+        local_multiplayer = prompt_local_multiplayer?
+        first_player_breaker = prompt_first_player_breaker?
+
+        while !win
+            break 
+        end
+    end
+
+    def prompt_local_multiplayer?
+        puts "Do you want to play against another player locally? (y/...)"
+        answer = gets.chomp.downcase
+
+        return (answer == "y" ? true : false)
+    end
+
+    def prompt_first_player_breaker?
+        puts "Do you want to be the code BREAKER? (y/...)"
+        answer = gets.chomp.downcase
+
+        return (answer == "y" ? true : false)
+    end
 end
 
 class Player
@@ -99,6 +124,7 @@ board = Board.new
 code_master = Player.new(board, false)
 code_breaker = Player.new(board, true)
 game = Game.new
+game.play
 
 code_master.make_code([1,2,3,4])
 
