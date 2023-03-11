@@ -35,6 +35,8 @@ class Game
             master.make_random_code()
         end
 
+        @board.display_board(false)
+
         while !win
             if first_player_breaker
                 guess = prompt_breaker_guess
