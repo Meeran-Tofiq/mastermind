@@ -1,5 +1,23 @@
 require 'pry-byebug'
 
+PROMPT_GAME_EXPLANATION = "This is a game of Mastermind!
+
+You are going to choose between being the code BREAKER or the code MAKER.
+The code MAKER be prompted to make the code, and the code BREAKER will be 
+prompted to make a guess. You can choose to local play multiplayer, with 
+a friend, or if you are the BREAKER, against hte computer.
+
+If a guess contains a correct number at the correct location, you will be
+shown a ' ■ ', without telling you WHICH number. If a guess contains the 
+correct number, but at the wrong location, you will be shown a ' o ', wit-
+-hout telling you WHICH number"
+
+class Game
+    def initialize
+        puts PROMPT_GAME_EXPLANATION
+    end
+end
+
 class Player
     attr_reader :code_breaker, :board
     attr_accessor :guess_counter
@@ -78,6 +96,7 @@ end
 board = Board.new
 code_master = Player.new(board, false)
 code_breaker = Player.new(board, true)
+game = Game.new
 
 code_master.make_code([1,2,3,4])
 
