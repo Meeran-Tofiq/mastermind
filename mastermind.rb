@@ -28,7 +28,7 @@ class Game
             win = false
 
             local_multiplayer = prompt_local_multiplayer?
-            first_player_breaker = prompt_first_player_breaker?
+            player_breaker = prompt_player_breaker?
 
             breaker = Player.new(@board, true)
             master = Player.new(@board, false)
@@ -36,26 +36,30 @@ class Game
             if local_multiplayer
                 master.make_code(prompt_code)
             else
-                master.make_random_code()
+                master.make_code(master.random_code)
             end
 
             @board.display_board(false)
 
             while !win
-                if first_player_breaker
+                if local_multiplayer
                     guess = prompt_breaker_guess
                     win = breaker.make_guess(guess)
                     @board.display_board(win)
-                    
-                    if win == nil || win
-                        if prompt_replay
-                            replay = true
-                            @board = Board.new
-                            break
-                        end
-                    end
+
+                elsif !player_breaker
+                    win = breaker.make_guess(breaker.random_code)
+                    @board.display_board(win)
+                    sleep 0.5
                 end
 
+                if win == nil || win
+                    if prompt_replay
+                        replay = true
+                        @board = Board.new
+                    end
+                    break
+                end
             end
         end
     end
@@ -67,7 +71,7 @@ class Game
         return (answer == "y" ? true : false)
     end
 
-    def prompt_first_player_breaker?
+    def prompt_player_breaker?
         puts "Do you want to be the code BREAKER? (y/...)"
         answer = gets.chomp.downcase
 
@@ -144,13 +148,8 @@ class Player
         board.code = code
     end
 
-    def make_random_code
-        if code_breaker
-            return
-        end
-        
+    def random_code
        code = Array.new(4) {rand(1..6)}
-       make_code(code) 
     end
     
     def make_guess(code_guess)
@@ -199,7 +198,7 @@ class Board
     end
     
     def display_board(win)
-        if win
+        if win || win == nil
             p code
         else
             p Array.new(4) {"Ø"}
