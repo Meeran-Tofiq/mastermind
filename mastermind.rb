@@ -43,10 +43,10 @@ class Player
             end
             
             @guess_counter = @guess_counter - 1
-        end
-        
+        end 
+
+        return false
     end
-    
 end
 
 class Board
