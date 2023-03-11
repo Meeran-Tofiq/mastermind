@@ -61,36 +61,49 @@ class Game
 
         return (answer == "y" ? true : false)
     end
-
+    
+    def prompt_code
+        puts "What do you want the code to be? (it must be 4 numbers, all between 1 and 6)"
+        code = gets.chomp.split('')
+        
+        code_within_rules(code)
+    end        
+    
     def prompt_breaker_guess
         puts "Write your guess with 4 numbers, each between 1 and 6"
         guess = gets.chomp.split('')
-        guess_within_rules = false
+        code_within_rules = false
         
-        while !guess_within_rules
-            if guess.length != 4
-                puts "You must guess with a 4-number code"
-                guess = gets.chomp.split('')
+        code_within_rules(guess)
+    end
+
+    def code_within_rules(code)
+        code_within_rules = false
+
+        while !code_within_rules
+            if code.length != 4
+                puts "Your ocde must be 4 numbers, all between 1 and 6."
+                code = gets.chomp.split('')
                 next
             end
 
-            guess.each do |num|
+            code.each do |num|
                 num = num.to_i
                 if num > 6 || num < 1
-                    puts "Your number must be between 1 and 6"
-                    guess_within_rules = false
+                    puts "Your ocde must be 4 numbers, all between 1 and 6."
+                    code_within_rules = false
                     break 
                 else
-                    guess_within_rules = true
+                    code_within_rules = true
                 end
             end
             
-            unless guess_within_rules
-                guess = gets.chomp.split('')
+            unless code_within_rules
+                code = gets.chomp.split('')
             end
         end
-        
-        guess.map(&:to_i)
+
+        code.map(&:to_i)
     end
 end
 
