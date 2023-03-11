@@ -2,8 +2,8 @@ require 'pry-byebug'
 
 PROMPT_GAME_EXPLANATION = "This is a game of Mastermind!
 
-You are going to choose between being the code BREAKER or the code MAKER.
-The code MAKER be prompted to make the code, and the code BREAKER will be 
+You are going to choose between being the code BREAKER or the code MASTER.
+The code MASTER be prompted to make the code, and the code BREAKER will be 
 prompted to make a guess. You can choose to local play multiplayer, with 
 a friend, or if you are the BREAKER, against the computer.
 
