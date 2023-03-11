@@ -39,6 +39,9 @@ class Game
             if first_player_breaker
                 guess = prompt_breaker_guess
                 win = breaker.make_guess(guess)
+                if win == nil
+                    break
+                end
             end
 
             @board.display_board(win)
@@ -119,6 +122,11 @@ class Player
     end
     
     def make_guess(code_guess)
+        if guess_counter < 0
+            puts "You lost! No more guesses left!"
+            return
+        end
+
         unless code_breaker
             return
         end
